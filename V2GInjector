@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import code
+from libs.fonts import *
+
+code.interact(banner=banner, local=locals())

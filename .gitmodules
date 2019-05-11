@@ -1,0 +1,6 @@
+[submodule "thirdparty/HomePlugPWN"]
+	path = thirdparty/HomePlugPWN
+	url = https://github.com/FlUxIuS/HomePlugPWN
+[submodule "thirdparty/V2Gdecoder"]
+	path = thirdparty/V2Gdecoder
+	url = https://github.com/FlUxIuS/V2Gdecoder
