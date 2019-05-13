@@ -3,5 +3,6 @@
 
 import code
 from libs.fonts import *
+from core.Network import *
 
 code.interact(banner=banner, local=locals())

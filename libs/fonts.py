@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 banner = """
 ooooo  oooo  ooooooo     ooooooo8  
  888    88 o88     888 o888    88  

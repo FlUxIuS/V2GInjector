@@ -81,7 +81,4 @@ class Network(object):
             self.analyse(p)
 
     def sniff(self):
-        pass
-
-    def run(self):
-        pass
+        sniff(prn=self.analyse)
