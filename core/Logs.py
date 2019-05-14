@@ -5,6 +5,9 @@ from layerscapy.HomePlugGP import *
 from core.layers.SECC import *
 from core.layers.V2G import *
 
+from libs.EXIdecoder import *
+from colorama import Fore, Back, Style 
+
 config = Config()
 config.verboselogs = True
 
@@ -18,9 +21,10 @@ class log_wrapper(object):
             toreturn = f(*args, **kargs)
             if config.verboselogs is True:
                 if len(toreturn) > 0:
+                    print repr(toreturn[0])
                     if self.decoder_fct is not None:
-                        results = self.decoder_fct(toreturn)
-                    else:
-                        print toreturn
+                        print Fore.GREEN + "[Decoded packet]"
+                        print self.decoder_fct(toreturn[1])
+                        print Style.RESET_ALL
             return toreturn
         return wrapped

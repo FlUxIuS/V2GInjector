@@ -4,8 +4,7 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath('thirdparty/HomePlugPWN'))
-
+from core.Config import *
 from layerscapy.HomePlugGP import *
 from core.layers.SECC import *
 from core.layers.V2G import *
@@ -52,16 +51,18 @@ class Network(object):
 
     def processV2G(self, pkt, ports=None):
         payload = None
-        if "V2G" in self.interceptor.peers[pkt[IPv6].src]:
-            if pkt[TCP].sport == self.interceptor.peers[pkt[IPv6].src]["V2G"]["port"]:
-                if "V2G" not in self.interceptor.peers[pkt[IPv6].dst]:
-                    self.interceptor.peers[pkt[IPv6].dst]["V2G"] = {"type":"server", "port":pkt[TCP].dport}
-                payload = V2GTP(pkt.load)
-        if "V2G" in self.interceptor.peers[pkt[IPv6].dst]:
-            if pkt[TCP].dport == self.interceptor.peers[pkt[IPv6].dst]["V2G"]["port"]:
-                if "V2G" not in self.interceptor.peers[pkt[IPv6].src]:
-                    self.interceptor.peers[pkt[IPv6].src]["V2G"] = {"type":"client", "port":pkt[TCP].sport}
-                payload = V2GTP(pkt.load)
+        if pkt[IPv6].src in self.interceptor.peers:
+            if "V2G" in self.interceptor.peers[pkt[IPv6].src]:
+                if pkt[TCP].sport == self.interceptor.peers[pkt[IPv6].src]["V2G"]["port"]:
+                    if "V2G" not in self.interceptor.peers[pkt[IPv6].dst]:
+                        self.interceptor.peers[pkt[IPv6].dst]["V2G"] = {"type":"server", "port":pkt[TCP].dport}
+                    payload = V2GTP(pkt.load)
+        if pkt[IPv6].dst in self.interceptor.peers:
+            if "V2G" in self.interceptor.peers[pkt[IPv6].dst]:
+                if pkt[TCP].dport == self.interceptor.peers[pkt[IPv6].dst]["V2G"]["port"]:
+                    if "V2G" not in self.interceptor.peers[pkt[IPv6].src]:
+                        self.interceptor.peers[pkt[IPv6].src]["V2G"] = {"type":"client", "port":pkt[TCP].sport}
+                    payload = V2GTP(pkt.load)
         return payload
 
     def analyse(self, pkt):
@@ -80,5 +81,5 @@ class Network(object):
         for p in r:
             self.analyse(p)
 
-    def sniff(self):
-        sniff(prn=self.analyse)
+    def sniff(self, iface):
+        sniff(prn=self.analyse, iface=iface)

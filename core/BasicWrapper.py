@@ -10,10 +10,10 @@ class BasicWrapper(object):
     def __init__(self):
         pass
 
-    @log_wrapper("CLIENT_OUTPUT")
+    @log_wrapper("CLIENT_OUTPUT", decodeEXI)
     def wrap_client(self, pkt):
-        return decodeEXI(pkt.Payload)
+        return (pkt, pkt.Payload)
 
-    @log_wrapper("SERVER_OUTPUT")
+    @log_wrapper("SERVER_OUTPUT", decodeEXI)
     def wrap_server(self, pkt):
-        return decodeEXI(pkt.Payload)
+        return (pkt, pkt.Payload)

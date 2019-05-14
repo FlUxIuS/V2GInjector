@@ -14,7 +14,7 @@ def decodeEXI(data):
     return r.text
 
 def encodeEXI(data):
-    data = binascii.hexlify(data)
+    #data = binascii.hexlify(data)
     r = requests.post(  decoder_service,
                         headers={"Format":"XML"},
                         data=data)
