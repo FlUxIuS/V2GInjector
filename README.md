@@ -1,6 +1,4 @@
-![GitHub Logo](/images/logo.png)
-
-# V2GInjector
+![V2GInjector Logo](/images/logo.png)
 
 Tool to penetrate V2G networks, monitor and inject packets to attack electric cars and charging stations.
 
