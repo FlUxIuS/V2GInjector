@@ -109,3 +109,39 @@ This can then be used to configure your PLC device's PIB as follows:
 ```
 TODO
 ```
+
+### Generate V2G packets
+
+As it uses Scapy and extension layers, a V2G packet can be built using the same logic as Scapy:
+```
+~>>> ether = Ether()
+~>>> ip = IPv6(dst="fe80::3e2a:b4ff:3e5f:1a4")
+~>>> tcp = TCP(sport=6666, dport=54054, flags=24)
+~>>> v2g=V2GTP()
+~>>> packet = ether/ip/tcp/v2g
+~>>> packet
+<Ether  type=0x86dd |<IPv6  nh=TCP dst=fe80::3e2a:b4ff:3e5f:1a4 |<TCP  sport=6666 dport=54054 flags=PA |<V2GTP  |>>>>
+```
+But we need to push an EXI encoded payload in the V2GTP layer:
+```
+~>>> packet[V2GTP].show()
+###[ V2GTP ]### 
+  Version   = 1
+  Invers    = 254
+  PayloadType= EXI
+  PayloadLen= 0
+  Payload   = ''
+```
+To do that, as for the `analyse()` method call by `sniff()` and `pcap()` which uses `decodeEXI()` function to decode EXI data, a decoder function also exists to encode/compress a payload as follows:
+```
+~>>> xml = '<?xml version="1.0" encoding="UTF-8"?><ns7:V2G_Message xmlns:ns7="urn:iso:15118:2:2013:MsgDef" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" xmlns:ns5="urn:iso:15118:2:2013:MsgBody" xmlns:ns6="urn:iso:15118:2:2013:MsgDataTypes" xmlns:ns8="urn:iso:15118:2:2013:MsgHeader"><ns7:Header><ns8:SessionID>0000000000000000</ns8:SessionID></ns7:Header><ns7:Body><ns5:SessionSetupReq><ns5:EVCCID>1C1BB56B09D6</ns5:EVCCID></ns5:SessionSetupReq></ns7:Body></ns7:V2G_Message>'
+~>>> encoded_xml=encodeEXI(xml)
+~>>> encoded_xml
+u'809802000000000000000011D018706ED5AC275800'
+```
+Then, the encoded/compressed data in EXI can be pushed in the V2GTP payload as follows:
+```
+~>>> packet
+<Ether  type=0x86dd |<IPv6  nh=TCP dst=fe80::3e2a:b4ff:3e5f:1a4 |<TCP  sport=6666 dport=54054 flags=PA |<V2GTP  Payload='809802000000000000000011D018706ED5AC275800' |>>>>
+```
+To finish, the packet can be sent to the target using Scapy's `sendp()` function.
