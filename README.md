@@ -146,3 +146,11 @@ Then, the encoded/compressed data in EXI can be pushed in the V2GTP payload as f
 <Ether  type=0x86dd |<IPv6  nh=TCP dst=fe80::3e2a:b4ff:3e5f:1a4 |<TCP  sport=6666 dport=54054 flags=PA |<V2GTP  Payload='809802000000000000000011D018706ED5AC275800' |>>>>
 ```
 To finish, the packet can be sent to the target using Scapy's `sendp()` function.
+
+## Further development
+
+* Make a native Python EXI encoder/decoder -> very long task to do, or try using the C++ EXI Wrapper in Python
+* Add other wrappers
+* Add some pre-developed attacking functions during interception
+
+
