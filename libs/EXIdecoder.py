@@ -2,20 +2,24 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import binascii
+from core.InjExceptions import *
+from core.Config import *
 
-decoder_service = "http://localhost:9000"
+def sendpost(data, dformat):
+    host = Config.config["V2GService"]["host"]
+    port = Config.config["V2GService"]["port"]
+    decoder_service = "http://%s:%s" % (host, port)
+    try:
+        r = requests.post(  decoder_service,
+                            headers={"Format":dformat},
+                            data=data)
+        return r.text
+    except requests.ConnectionError:
+        raise DecodeError("Could'nt decode "+dformat+" data", "The V2G web server is not responding.")
 
 def decodeEXI(data):
-    data = binascii.hexlify(data)
-    r = requests.post(  decoder_service,
-                        headers={"Format":"EXI"},
-                        data=data)
-    return r.text
+    return sendpost(data, "EXI")
 
 def encodeEXI(data):
-    r = requests.post(  decoder_service,
-                        headers={"Format":"XML"},
-                        data=data)
-    return r.text
-
+    import binascii
+    return sendpost(binascii.hexlify(data), "XML")
