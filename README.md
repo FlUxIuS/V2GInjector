@@ -10,7 +10,7 @@ Tool to penetrate V2G networks, monitor and inject packets to attack electric ca
 - Scapy (use Scapy for Python3 if you prefer Python3)
 - Colorama for Python
 - V2Gdecoder in submodules, that is already compiled and available here: https://github.com/FlUxIuS/V2Gdecoder/releases
-- HomePlugPWN that is providen in dependencies
+- HomePlugPWN that is provided in submodules
 
 To install Python dependencies, use `pip install -r requirements.txt` (or `pip3` as needed).
 
