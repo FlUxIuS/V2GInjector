@@ -18,8 +18,8 @@ def sendpost(data, dformat):
         raise DecodeError("Could'nt decode "+dformat+" data", "The V2G web server is not responding.")
 
 def decodeEXI(data):
-    return sendpost(data, "EXI")
+    import binascii
+    return sendpost(binascii.hexlify(data), "EXI")
 
 def encodeEXI(data):
-    import binascii
-    return sendpost(binascii.hexlify(data), "XML")
+    return sendpost(data, "XML")

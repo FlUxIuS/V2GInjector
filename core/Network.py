@@ -5,6 +5,7 @@ import sys
 import os
 
 from core.Config import *
+from core.Logs import log_hpgp
 from layerscapy.HomePlugGP import *
 from core.layers.SECC import *
 from core.layers.V2G import *
@@ -17,6 +18,7 @@ CLIENT_TO_SERVER = 1
 class Network(object):
     pcapfile = None
     interceptor = None
+    hpgp = {}
 
     def __init__(self, interceptor=PInterceptor()):
         self.interceptor = interceptor
@@ -65,15 +67,41 @@ class Network(object):
                     payload = V2GTP(pkt.load)
         return payload
 
+    @log_hpgp("NEW_HPGP_NETWORK")
+    def __newHPGP(self, pkt, network):
+        return (pkt, network)
+
+    def processHPGP(self, pkt):
+        if "CM_SLAC_MATCH_CNF" in pkt:
+            varfield = pkt['CM_SLAC_MATCH_CNF'].VariableField
+            nmk = varfield.NMK
+            netid = varfield.NetworkID
+            runid = varfield.RunID
+            evseid = varfield.EVSEID
+            evid = varfield.EVID
+            newentry = {    "NMK" : nmk,
+                            "RunID" : runid,
+                            "EVSEID" : evseid,
+                            "EVID" : evid,
+                       }
+            logentry = newentry
+            logentry["NetID"] = netid
+            if netid not in self.hpgp:
+                self.hpgp[netid] = newentry
+                return self.__newHPGP(pkt, logentry)
+        return pkt 
+
     def analyse(self, pkt):
         new_pkt = pkt
         if pkt.haslayer("SECC"):
             self.__processSECC(pkt)
-        if pkt.haslayer("IPv6") and pkt.haslayer("TCP"):
+        elif pkt.haslayer("IPv6") and pkt.haslayer("TCP"):
             if int(pkt.flags) == 24:
                 payload = self.processV2G(pkt)
                 del(new_pkt[Raw])
                 new_pkt /= payload
+        elif pkt.haslayer("HomePlugAV"):
+            self.processHPGP(pkt)
         return self.interceptor.intercept(new_pkt)
 
     def pcap(self, pcapfile):
