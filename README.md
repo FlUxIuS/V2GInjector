@@ -59,7 +59,7 @@ First, the V2Gdecoder service must be running as follows:
 $ java -jar V2Gdecoder.jar -w
 ```
 
-Then, when calling `pcap()` or `sniff()` methods as follows, EXI data are simply decoded as follows:
+Then, when calling `pcap()` or `sniff()` methods as follows, EXI data are simply decoded:
 ```
 ~>>> n=Network()
 ~>>> n.pcap("/tmp/emulated.pcapng")
@@ -91,7 +91,7 @@ Then, when calling `pcap()` or `sniff()` methods as follows, EXI data are simply
 
 ### Collected HPGP keys
 
-Collected HomePlug GP keys are directly show when calling `pcap()` or `sniff()` methods as follows:
+Collected HomePlug GP keys are directly show when calling `pcap()` or `sniff()`:
 ```
 ~>>> n=Network()
 ~>>> n.sniff(iface="eth0")
@@ -132,7 +132,7 @@ But we need to push an EXI encoded payload in the V2GTP layer:
   PayloadLen= 0
   Payload   = ''
 ```
-To do that, as for the `analyse()` method call by `sniff()` and `pcap()` which uses `decodeEXI()` function to decode EXI data, a decoder function also exists to encode/compress a payload as follows:
+To do that, as for the `analyse()` method call by `sniff()` and `pcap()` which uses `decodeEXI()` function to decode EXI data, a encoder function `encodeEXI` also exists to compress the XML payload to EXI:
 ```
 ~>>> xml = '<?xml version="1.0" encoding="UTF-8"?><ns7:V2G_Message xmlns:ns7="urn:iso:15118:2:2013:MsgDef" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://www.w3.org/2001/XMLSchema" xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" xmlns:ns5="urn:iso:15118:2:2013:MsgBody" xmlns:ns6="urn:iso:15118:2:2013:MsgDataTypes" xmlns:ns8="urn:iso:15118:2:2013:MsgHeader"><ns7:Header><ns8:SessionID>0000000000000000</ns8:SessionID></ns7:Header><ns7:Body><ns5:SessionSetupReq><ns5:EVCCID>1C1BB56B09D6</ns5:EVCCID></ns5:SessionSetupReq></ns7:Body></ns7:V2G_Message>'
 ~>>> encoded_xml=encodeEXI(xml)
