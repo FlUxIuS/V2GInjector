@@ -25,6 +25,10 @@ class Config(Singleton):
     verboselogs = False
 
     def parse_config(cls, config_path="config/default.cfg"):
+        """
+            Configuration parser
+            In(1): String configuration path
+        """
         config = configparser.ConfigParser()
         config.read(unicode(config_path))
         for s in config:

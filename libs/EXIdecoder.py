@@ -21,6 +21,11 @@ from core.InjExceptions import *
 from core.Config import *
 
 def sendpost(data, dformat):
+    """
+        Send date to V2G decoder web server
+        In(1): String or Hex data
+        In(2): String format to use (EXI or XML)
+    """
     host = Config.config["V2GService"]["host"]
     port = Config.config["V2GService"]["port"]
     decoder_service = "http://%s:%s" % (host, port)
@@ -33,8 +38,18 @@ def sendpost(data, dformat):
         raise DecodeError("Could'nt decode "+dformat+" data", "The V2G web server is not responding.")
 
 def decodeEXI(data):
+    """
+        EXI-XML data decoder
+        In(1): String or Hex data
+        Out: String decoded EXI to XML
+    """ 
     import binascii
     return sendpost(binascii.hexlify(data), "EXI")
 
 def encodeEXI(data):
+    """
+        XML->EXI data encoder
+        In(1): String or Hex data
+        Out: String decoded EXI to XML
+    """
     return sendpost(data, "XML")

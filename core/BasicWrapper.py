@@ -28,8 +28,18 @@ class BasicWrapper(object):
 
     @log_wrapper("CLIENT_OUTPUT", decodeEXI)
     def wrap_client(self, pkt):
+        """
+            Client wrapper
+            In(1): scapy packet to process
+            out: Tuple with copy of the packet and processed payload
+        """
         return (pkt, pkt.Payload)
 
     @log_wrapper("SERVER_OUTPUT", decodeEXI)
     def wrap_server(self, pkt):
+        """
+            Server wrapper
+            In(1): scapy packet to process
+            out: Tuple with copy of the packet and processed payload
+        """
         return (pkt, pkt.Payload)

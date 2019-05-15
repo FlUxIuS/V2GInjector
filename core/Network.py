@@ -32,6 +32,9 @@ SERVER_TO_CLIENT = 0
 CLIENT_TO_SERVER = 1
 
 class Network(object):
+    """
+        Network Class to sniff and process packet, including PCAP captures
+    """
     pcapfile = None
     interceptor = None
     hpgp = {}
@@ -40,6 +43,11 @@ class Network(object):
         self.interceptor = interceptor
 
     def __SECCpeers(self, pkt, direction):
+        """
+            Save SECC peers information
+            In(1): Scapy packet
+            In(2): Int SERVER_TO_CLIENT or CLIENT_TO_SERVER direction
+        """
         dest = pkt[IPv6].dst
         src = pkt[IPv6].src
         sport = {"UDP" : pkt.sport}
@@ -58,6 +66,10 @@ class Network(object):
         self.interceptor.peers[src]["SECC"] = {"type" : stype, "port" : sport}
 
     def __processSECC(self, pkt):
+        """
+            Process SECC packets
+            In(1): Scapy packet
+        """
         if pkt.haslayer("SECC_RequestMessage"):
             self.__SECCpeers(pkt, CLIENT_TO_SERVER)
         if pkt.haslayer("SECC_ResponseMessage"):
@@ -68,6 +80,11 @@ class Network(object):
             self.interceptor.peers[address]["V2G"] = {"type" : "server", "port" : pkt.TargetPort}
 
     def processV2G(self, pkt, ports=None):
+        """
+            Process V2G packet
+            In(1): Scapy packet
+            In(2): list of known ports to process #TODO
+        """
         payload = None
         if pkt[IPv6].src in self.interceptor.peers:
             if "V2G" in self.interceptor.peers[pkt[IPv6].src]:
@@ -85,9 +102,20 @@ class Network(object):
 
     @log_hpgp("NEW_HPGP_NETWORK")
     def __newHPGP(self, pkt, network):
+        """
+            Log new HomePlug GP networks
+            In(1): Scapy packet
+            In(2): Dict new network information
+            Out: Tuple with Scapy packet and new network information
+        """
         return (pkt, network)
 
     def processHPGP(self, pkt):
+        """
+            Process HomePlug GP packet
+            In(1): Scapy packet
+            Out: Scapy packet
+        """
         if "CM_SLAC_MATCH_CNF" in pkt:
             varfield = pkt['CM_SLAC_MATCH_CNF'].VariableField
             nmk = varfield.NMK
@@ -108,6 +136,11 @@ class Network(object):
         return pkt 
 
     def analyse(self, pkt):
+        """
+            Packet analyser
+            In(1): Scapy packet
+            Out: Intercepted Scapy packet
+        """
         new_pkt = pkt
         if pkt.haslayer("SECC"):
             self.__processSECC(pkt)
@@ -121,9 +154,17 @@ class Network(object):
         return self.interceptor.intercept(new_pkt)
 
     def pcap(self, pcapfile):
+        """
+            PCAP processor
+            In(1): String PCAP file path
+        """
         r = rdpcap(pcapfile)
         for p in r:
             self.analyse(p)
 
     def sniff(self, iface):
+        """
+            Sniffer
+            In(1): String device interface to sniff
+        """
         sniff(prn=self.analyse, iface=iface)

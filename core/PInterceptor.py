@@ -30,6 +30,10 @@ class PInterceptor(object):
         self.peers = {}
 
     def intercept(self, pkt):
+        """
+            Default packet interceptor
+            In(1): Scapy packet
+        """
         wrapper = None
         if pkt.haslayer("V2GTP"):
             wrapper = self.wrapper.wrap_client
