@@ -21,7 +21,7 @@ $ git submodule update --init --recursive
 
 ### Hardware
 
-Any devices using Qualcomm Atheros 7k baseband. 
+Any devices using the PowerLine-Communication Qualcomm Atheros 7k (QCA7k) series baseband. 
 
 The tool has been tested with following devices:
 
