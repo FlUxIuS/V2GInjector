@@ -141,6 +141,7 @@ u'809802000000000000000011D018706ED5AC275800'
 ```
 Then, the encoded/compressed data in EXI can be pushed in the V2GTP payload as follows:
 ```
+~>>> packet.Payload=encoded_xml
 ~>>> packet
 <Ether  type=0x86dd |<IPv6  nh=TCP dst=fe80::3e2a:b4ff:3e5f:1a4 |<TCP  sport=6666 dport=54054 flags=PA |<V2GTP  Payload='809802000000000000000011D018706ED5AC275800' |>>>>
 ```
