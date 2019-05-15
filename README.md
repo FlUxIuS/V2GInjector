@@ -16,7 +16,7 @@ To install Python dependencies, use `pip install -r requirements.txt` (or `pip3`
 
 Submodules can be fetched as follows:
 ```
-git submodule sync --recursive
+$ git submodule update --init --recursive
 ```
 
 ### Hardware
