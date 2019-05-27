@@ -31,6 +31,14 @@ The tool has been tested with following devices:
 * Devolo 1200+ (~50€) -> to rework if you want to bind it to CP lines
 * TODO: test other devices with a QCA7k PLC baseband.
 
+## Connections
+
+The PowerLine Communication device could be plugged in three different ways:
+
+* plugging it with an IEC 61851 or any compatible connector for your targeted car (that could be found in Alibaba)
+* with an interception cable between the charging station and the car
+* or using simply use a default PLC wallplug with a QCA7k connected to the same shared electrical network as the charging station(s) and the car(s). 
+
 ## How to use it
 
 The tool can be started with the following interpreter as follows:
