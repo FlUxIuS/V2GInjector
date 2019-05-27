@@ -21,11 +21,15 @@ $ git submodule update --init --recursive
 
 ### Hardware
 
-Any devices using the PowerLine-Communication Qualcomm Atheros 7k (QCA7k) series baseband. 
+Any devices using the PowerLine-Communication Qualcomm Atheros 7k (QCA7k) series baseband (tested on QCA7420 and QCA7500). 
+For wallplugs, next to the HomePlug logo, there is a text descripting plug's interoperability including HomePlug GP.
 
 The tool has been tested with following devices:
 
-* TODO
+* dLAN Green PHY eval board EU II (~150€)
+* PLC Stamp Micro 2 Evaluation Board (Home Automation) (~300€)
+* Devolo 1200+ (~50€) -> to rework if you want to bind it to CP lines
+* TODO: test other devices with a QCA7k PLC baseband.
 
 ## How to use it
 
