@@ -117,10 +117,7 @@ Collected HomePlug GP keys are directly show when calling `pcap()` or `sniff()`:
 ```
 These data are stored in the `Network().hpgp` attribute.
 
-This can then be used to configure your PLC device's PIB as follows:
-```
-TODO
-```
+This can then be used to configure your PLC device's PIB by dumping it with `plctool` and using `slac\pev` tool and profile file.
 
 ### Generate V2G packets
 
