@@ -1,0 +1,4 @@
+scapy
+colorama
+requests
+itertools
