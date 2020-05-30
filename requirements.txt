@@ -1,4 +1,3 @@
 scapy
 colorama
 requests
-itertools
