@@ -30,7 +30,7 @@ class Config(Singleton):
             In(1): String configuration path
         """
         config = configparser.ConfigParser()
-        config.read(unicode(config_path))
+        config.read(str(config_path))
         for s in config:
             cls.config[s] = {}
             for k in config[s]:
