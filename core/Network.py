@@ -167,4 +167,4 @@ class Network(object):
             Sniffer
             In(1): String device interface to sniff
         """
-        sniff(prn=self.analyse, iface=iface)
+        sniff(prn=self.analyse, iface=iface, L2socket=conf.L2socket)
