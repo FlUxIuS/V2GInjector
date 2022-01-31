@@ -36,7 +36,7 @@ The tool has been tested with following devices:
 
 * dLAN Green PHY eval board EU II (~150€)
 * PLC Stamp Micro 2 Evaluation Board (Home Automation) (~300€)
-* Devolo 1200+ (~50€) -> to rework if you want to bind it to CP lines -> very difficult to get access on new plugs
+* Devolo 1200+ (~50€) -> to rework if you want to bind it to CP lines -> dangerous to get access on TR+/- lines /!\
 * Working on QCA7420 chips, but attenuation must be forced on EVSE side for the SLAC procedure
 * TODO: test other devices with a QCA7k PLC baseband.
 
