@@ -12,3 +12,4 @@ tee -a V2GDecoder_default_run.sh << END
 java -jar bin/V2Gdecoder.jar -w
 END
 chmod +x V2GDecoder_default_run.sh
+ln -s thirdparty/V2Gdecoder/schemas schemas
