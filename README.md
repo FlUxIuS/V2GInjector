@@ -8,6 +8,8 @@ Tool to penetrate V2G networks, monitor and inject packets to attack electric ca
 - Slides from SSTIC 2019: https://www.sstic.org/media/SSTIC2019/SSTIC-actes/v2g_injector_playing_with_electric_cars_and_chargi/SSTIC2019-Slides-v2g_injector_playing_with_electric_cars_and_charging_stations_via_powerline-dudek.pdf
 - Video recording from SSTIC 2019 (in French): https://static.sstic.org/videos2019/1080p/SSTIC_2019-06-07_P06.mp4
 
+Support: contact the [Penthertz company](https://penthertz.com/) which is the owner of the project.
+
 ## Dependencies
 
 ### Software 

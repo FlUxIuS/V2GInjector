@@ -37,7 +37,7 @@ class PInterceptor(object):
         wrapper = None
         if pkt.haslayer("V2GTP"):
             wrapper = self.wrapper.wrap_client
-            if pkt[IPv6].dst in self.peers:
+            if pkt[IPv6].dst in self.peers: # TODO: clean this code and test
                 if self.peers[pkt[IPv6].dst]["V2G"]["type"] == "server":
                     wrapper = self.wrapper.wrap_server
             if pkt[IPv6].src in self.peers:
